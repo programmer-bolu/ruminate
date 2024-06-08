@@ -240,13 +240,27 @@ header .navbar {
     color: #20232e;
     background-color: white;
 }
-
+.logout{
+    padding: 9px 20px;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    border: 2px solid black !important;
+    transition: all .3s ease-out;
+    margin-top: -20px;
+}
+.logout:hover{
+    background-color: white;
+    border: medium solid black;
+    color: black;
+}
 
 .userblogs {
     min-height: 300px;
     background-color: #f7f7f7;
     position: relative;
     width: 100%;
+    padding-bottom: 50px;
 }
 
 .userblogs .tip {
@@ -383,8 +397,50 @@ header .navbar {
 .userblogs .down-content ul.post-share li a:hover {
     color: #f48840;
 }
+.viewall{
+    margin: auto;
+    width: 200px;
+    background-color: #f48840;
+    height: 40px;
+    font-weight: 600;
+    border-radius: 2px;
+    display: block;
+    margin-top: 50px;
+}
 
-/* Footer */
+.call-to-action {
+    margin: 60px;
+}
+
+.call-to-action .main-content {
+    padding: 40px;
+    background-image: url(../images/cta-bg.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.call-to-action .main-content span {
+    color: #f48840;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.call-to-action .main-content h4 {
+    margin-bottom: 0px;
+    margin-top: 12px;
+    color: #fff;
+    font-size: 26px;
+    font-weight: 600;
+    letter-spacing: 0.25px;
+}
+
+.call-to-action .main-content .main-button {
+    text-align: right;
+    margin-top: 12px;
+    border-radius: 5px;
+}
 
 
 

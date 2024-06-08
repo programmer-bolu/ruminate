@@ -325,3 +325,13 @@ def fetch_user_blogs(id):
     connect.execute(f'SELECT * FROM blogs WHERE author_id="{id}"')
     data = connect.fetchall()
     return data
+
+def get_blog(id, title):
+    connect.execute(f'SELECT * FROM blogs WHERE author_id="{id}" AND title="{title}"')
+    data = connect.fetchall()
+    return data
+
+def get_all_blogs():
+    connect.execute(f'SELECT * FROM blogs')
+    data = connect.fetchall()
+    return data

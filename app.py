@@ -4,12 +4,28 @@ import random
 from database import sqlserver as sv
 import numpy as np
 from process_image import image_url as ig
+from datetime import datetime, timedelta
 app = Flask(__name__)
 
 @app.route('/error')
 def error():
     return 'error message'
 
+def is_greater_than_24_hours(time_str):
+    # Parse the given time string
+    given_time = datetime.strptime(time_str, '%d/%m/%Y, %H:%M')
+    
+    # Get the current time
+    current_time = datetime.now()
+    
+    # Calculate the difference between the given time and current time
+    time_difference = current_time - given_time
+    
+    # Check if the time difference is greater than 24 hours
+    if time_difference > timedelta(hours=24):
+        return True
+    else:
+        return False
 # """LANDING PAGE"""
 @app.route('/')
 def index():
@@ -169,7 +185,18 @@ def newpassword():
     
 @app.get('/blog')
 def get_blog():
-    return render_template('blog.html')
+    author_id = request.args.get('author_id')
+    title = request.args.get('blog_title')
+    recent = []
+    categories = sv.categories()
+    random.shuffle(categories)
+    blog = sv.get_blog(author_id, title)
+    blog[0] = list(blog[0])
+    blog[0][10] = eval(blog[0][10])
+    for i in sv.get_all_blogs():
+        if is_greater_than_24_hours(i[1]):
+            recent.append(i)
+    return render_template('blog.html', blog=blog, categories=categories, recent=recent)
 
 @app.get('/blogger/create/blog')
 def create_blog():
@@ -225,7 +252,7 @@ def home():
         for i in range(len(blog)):
             blog[i] = list(blog[i])
             blog[i][10] = eval(blog[i][10])
-        return render_template('profile.html', user_name=sv.get_user_data(id)['name'], user_has_blogs=user_has_blogs, id=id, blogs=blog)
+        return render_template('profile.html', user_name=sv.get_user_data(id)['name'], user_has_blogs=user_has_blogs, id=id, blogs=blog, bloglen = len(blog))
     else:
         user_has_blogs = False
         return render_template('profile.html', user_name=sv.get_user_data(id)['name'], user_has_blogs=user_has_blogs, id=id)

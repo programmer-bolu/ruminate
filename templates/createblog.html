@@ -19,6 +19,9 @@
 <link rel="stylesheet" href="{{url_for('static', filename='css/createblog.css')}}">
 
 <body>
+    <div class="postload" id="postload">
+        <i class="fa-duotone fa-spinner-third fa-spin"></i>
+    </div>
     <div class="error" id="error">
         <p id="errormessage"></p>
     </div>
@@ -316,6 +319,7 @@
         if (title.value.length >= 2 && countWords(title.value) <= 20) {
             if (countWords(description.value) >= 150) {
                 if(post_categories.length > 0){
+                    postload.style.display = 'flex'
                     post()
                 }else{
                     errormessage.innerHTML = 'You must select at least one category'
@@ -377,8 +381,10 @@
             data = JSON.parse(data)
             if (data == true) {
                 window.location.href = `/home?user_id=${'{{author_id}}'}`
+                postload.style.display = 'none'
             }else{
                 window.location.href = `/home?user_id=${'{{author_id}}'}&error='network error'`
+                postload.style.display = 'none'
             }
         })
         .catch(err => console.log(err))

@@ -50,8 +50,10 @@
                         </li>
                     </ul>
                 </div>
+                <button class="logout" aria-expanded="false">
+                    Log-Out
+                </button
             </div>
-
         </nav>
     </header>
 
@@ -98,13 +100,13 @@
                                             <li><a href="#">{{blog[0][9]}}</a></li>
                                             <li><a href="#">{{blog[0][1]}}</a></li>
                                             <li><a href="#comments">
-                                                Comments : 
-                                                {% if blog[0][4] == None%}
-                                                0
-                                                {% else %}
-                                                {{blog[0][4]}}
-                                                {% endif %}
-                                            </a></li>
+                                                    Comments :
+                                                    {% if blog[0][4] == None%}
+                                                    0
+                                                    {% else %}
+                                                    {{blog[0][4]}}
+                                                    {% endif %}
+                                                </a></li>
                                         </ul>
 
                                         <p>{{blog[0][7]|safe}}</p>
@@ -251,13 +253,13 @@
                                     </div>
                                     <div class="content">
                                         {% for ele in recent[:4]%}
-                                            <ul>
-                                                <li><a href="post-details.html">
-                                                        <h5>Vestibulum id turpis porttitor sapien facilisis scelerisque</h5>
-                                                        <span>May 31, 2020</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
+                                        <ul>
+                                            <li><a href="/blog?author_id={{ele[8]}}&blog_title={{ele[6]}}">
+                                                    <h5>{{ele[6]}}</h5>
+                                                    <span>{{ele[1]}}</span>
+                                                </a>
+                                            </li>
+                                        </ul>
                                         {% endfor %}
                                     </div>
                                 </div>
@@ -287,5 +289,9 @@
     </section>
 
 </body>
+
+<script>
+    
+</script>
 
 </html>

@@ -98,9 +98,12 @@
         fetch(`/verify/?email=${email}&code=${code}`)
             .then(response => response.json())
             .then(data => {
+                data = JSON.parse(data);
+                console.log(data);
                 if (data[0] == 'true') {
-                    let id = "{{ id }}"
-                    window.location.href = `/home?user_id=${id}`
+                    let id = data[1];
+                    localStorage.setItem('user_id', id)
+                    window.location.href = `/home?user_id=${id}&token=${data[2]}`
                 } else {
                     alert('Wrong verification code')
                     num1.focus()
@@ -111,6 +114,7 @@
             })
             .catch(error => console.log('Error :' + error))
     }
+
 </script>
 
 </html>

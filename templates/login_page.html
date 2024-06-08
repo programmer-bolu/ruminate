@@ -52,8 +52,9 @@
             .then(data => {
                 data = JSON.parse(data)
                 if (data[0] === 'res2') {
-                    let id = "{{ id }}"
-                    window.location.href = `/home?user_id=${data[2]}`
+                    localStorage.setItem('user_id', data[1])
+                    window.sessionStorage.setItem('token', data[2])
+                    window.location.href = `/home?user_id=${data[1]}&token=${data[2]}`
                 }
                 else if (data[0] === 'res3') {
                     let name = data[1]

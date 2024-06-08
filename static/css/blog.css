@@ -1,23 +1,22 @@
-.main-button a {
-    display: inline-block;
-    background-color: #f48840;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 12px 20px;
-    text-transform: uppercase;
-    transition: all .3s;
+body {
+    font-family: poppins;
+    overflow-x: hidden;
 }
 
-.main-button a:hover {
-    background-color: #fb9857;
+body::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgb(207, 207, 207);
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: #7a7a7a;
+    border-radius: 10px;
 }
 
 p {
     margin-bottom: 0px;
     font-size: 15px;
     font-weight: 400;
-    color: #7a7a7a !important;
     line-height: 30px;
 }
 
@@ -39,6 +38,57 @@ h5,
 h6 {
     margin: 0px;
 }
+
+button {
+    border: none !important;
+}
+
+.main-button a {
+    display: inline-block;
+    background-color: #f48840;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 20px;
+    text-transform: uppercase;
+    transition: all .3s;
+}
+
+.main-button a:hover {
+    background-color: #fb9857;
+}
+
+.heading-page {
+    padding-top: 110px;
+}
+
+.page-heading {
+    margin: 0px 10px;
+    padding: 120px 0px;
+    text-align: left;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url(../images/heading-bg.jpg);
+}
+
+.page-heading .text-content h4 {
+    color: #f48840;
+    font-size: 18px;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+}
+
+.page-heading .text-content h2 {
+    color: #fff;
+    font-size: 36px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
 /* Header Style */
 header {
     position: absolute;
@@ -68,10 +118,6 @@ header .navbar {
     box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.1);
 }
 
-.background-header .navbar-brand h2 {
-    color: #121212 !important;
-}
-
 .background-header .navbar-nav a.nav-link {
     color: #1e1e1e !important;
 }
@@ -86,23 +132,13 @@ header .navbar {
 
 .navbar .navbar-brand {
     float: left;
-    margin-top: -12px;
     outline: none;
-}
-
-.navbar .navbar-brand h2 {
-    color: #1e1e1e;
-    text-transform: uppercase;
-    font-size: 24px;
-    font-weight: 900;
-    -webkit-transition: all .3s ease 0s;
-    -moz-transition: all .3s ease 0s;
-    -o-transition: all .3s ease 0s;
-    transition: all .3s ease 0s;
+    margin-top: -20px;
 }
 
 #navbarResponsive {
     z-index: 999;
+    margin-top: -20px;
 }
 
 .navbar-collapse {
@@ -116,7 +152,7 @@ header .navbar {
 .navbar .navbar-nav a.nav-link {
     text-transform: capitalize;
     font-size: 15px;
-    font-weight: 800;
+    font-weight: 400;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     color: #1e1e1e;
@@ -137,25 +173,51 @@ header .navbar {
 
 .navbar .navbar-toggler {
     color: black !important;
-    fill: black;
     height: 46px;
     outline: none;
     border-radius: 0px;
     position: absolute;
+    border: none;
     right: 30px;
     top: 25px;
+    border: none !important;
+    outline: none !important;
+}
+
+.navbar .navbar-toggler:focus {
+    border: none !important;
+    outline: none !important;
 }
 
 .navbar .navbar-toggler-icon:after {
     content: '\f0c9';
     color: black;
+    border: none;
     font-size: 30px;
     line-height: 30px;
     font-family: 'FontAwesome';
+    outline: none !important;
+    border: none !important;
 }
 
+.navbar-toggler-icon:focus {
+    border: none;
+}
+.logout {
+    padding: 9px 20px;
+    background-color: black;
+    color: white;
+    border-radius: 3px;
+    border: 2px solid black !important;
+    transition: all .3s ease-out;
+    margin-top: -20px;
+}
 
-/* Call To Action */
+.logout:hover {
+    background-color: white;
+    border: medium solid black;
+    color: black;
+}
 
 .call-to-action {
     margin-top: 100px;

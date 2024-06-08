@@ -27,7 +27,7 @@
             <input type="date" name="date" id="date" class="input" min="1934-01-01" max="" required>
             <input type="password" id="password" class="input" placeholder="Password *" name="password"
                 autocomplete="new-password" required min="6" minlength="6">
-            <button class="form-btn" type="submit" id="sbt">Sign Up</button>
+            <button class="form-btn" id="sbt">Sign Up</button>
         </form>
         <p class="sign-up-label">
             Already have an account?<a href="/login"><span class="sign-up-link">Log in</span></a>
@@ -37,6 +37,7 @@
 <script>
     let index = 1
     document.getElementById('sbt').addEventListener('click', (e) => {
+        e.preventDefault()
         if (index == 1) {
             confirmInput()
         }

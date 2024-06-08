@@ -1,17 +1,16 @@
-from flask import Flask, render_template, request, url_for, jsonify, redirect
+from flask import Flask, render_template, request, url_for, jsonify, redirect, session
 import json
 import random
 from database import sqlserver as sv
 import numpy as np
 from process_image import image_url as ig
 from datetime import datetime, timedelta
+import os
 app = Flask(__name__)
 
-@app.route('/error')
-def error():
-    return 'error message'
+app.secret_key = os.urandom(24)
 
-def is_greater_than_24_hours(time_str):
+def is_less_than_24_hours(time_str):
     # Parse the given time string
     given_time = datetime.strptime(time_str, '%d/%m/%Y, %H:%M')
     
@@ -21,8 +20,8 @@ def is_greater_than_24_hours(time_str):
     # Calculate the difference between the given time and current time
     time_difference = current_time - given_time
     
-    # Check if the time difference is greater than 24 hours
-    if time_difference > timedelta(hours=24):
+    # Check if the time difference is less than 24 hours
+    if time_difference < timedelta(hours=24):
         return True
     else:
         return False
@@ -74,6 +73,8 @@ def confirm():
 def verify():
     email = request.args.get('email')
     code = request.args.get('code')
+    session['blog_token'] = os.urandom(24).hex()
+    
 
     if email == None or code == None:
         return redirect(url_for('register'))
@@ -81,10 +82,11 @@ def verify():
     if sv.confirm_verification_code(email, code) == True:
         res = sv.get_user(email)
         name = res['name']
+        token = session.get('blog_token')
         password = res['password']
         sv.save_user(email, name, password)
         id = sv.get_id(email)
-        return jsonify(f'["true", "{id}" ]')
+        return jsonify(f'["true", "{id}", "{token}"]')
     else:
         return jsonify('false')
 
@@ -93,13 +95,15 @@ def AuthLog():
     element = request.json['data']
     email = element['email']
     password = element['password']
+    session['blog_token'] = os.urandom(24).hex()
     
     if sv.check_login(email, password) == None:
         return jsonify('["res1" , "No User"]')
 
     elif sv.check_login(email, password)[0] == True:
         id = sv.get_id(email)
-        return jsonify(f'["res2" , "{sv.check_login(email, password)[1]}", "{id}"]')
+        token = session.get('blog_token')
+        return jsonify(f'["res2", "{id}", "{token}" ]')
     
     elif sv.check_login(email, password)[0] == False:
         return jsonify(f'["res3" , "{sv.check_login(email, password)[1]}"]')
@@ -191,11 +195,14 @@ def get_blog():
     categories = sv.categories()
     random.shuffle(categories)
     blog = sv.get_blog(author_id, title)
+    print(blog)
     blog[0] = list(blog[0])
     blog[0][10] = eval(blog[0][10])
     for i in sv.get_all_blogs():
-        if is_greater_than_24_hours(i[1]):
+        if is_less_than_24_hours(i[1]):
             recent.append(i)
+    random.shuffle(recent)
+
     return render_template('blog.html', blog=blog, categories=categories, recent=recent)
 
 @app.get('/blogger/create/blog')
@@ -245,6 +252,7 @@ def category():
 
 @app.get('/home')
 def home():
+    toke = request.args.get('token')
     id = request.args.get('user_id')
     if len(sv.fetch_user_blogs(id)) > 0:
         user_has_blogs = True
@@ -256,7 +264,5 @@ def home():
     else:
         user_has_blogs = False
         return render_template('profile.html', user_name=sv.get_user_data(id)['name'], user_has_blogs=user_has_blogs, id=id)
-
-
 
 app.run(debug=True)

@@ -209,16 +209,21 @@ header .navbar {
 
 .owl-banner {
 	padding-top: 110px;
+	height: 100%;
+
 }
 .owl-carousel img {
-	max-height: 500px;
-	width: auto;
+	/* max-height: 500px; */
+	height: inherit;
 	object-fit: cover;
+	width: auto;
 	border-radius: 5px;
+
 }
 
 .owl-banner .item {
 	position: relative;
+	height: 500px;
 }
 
 .owl-banner .item .item-content {

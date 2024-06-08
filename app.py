@@ -30,7 +30,9 @@ def is_less_than_24_hours(time_str):
 def index():
     categories = sv.categories()
     random.shuffle(categories)
-    return render_template('index.html', categories = categories)
+    blogs = sv.get_all_blogs()
+    random.shuffle(blogs)
+    return render_template('index.html', categories = categories, blogs=blogs)
 
 @app.route('/login')
 def login():

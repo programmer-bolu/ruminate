@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/signup.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dir">
+        <a href="/">Home</a> / Register
+    </div>
+    <div class="form-container">
+        <p class="title">Register Ruminate</p>
+        <form class="form">
+            <input type="text" name="name" id="name" class="input" placeholder="Full Name *" autocomplete="name"
+                required>
+            <input type="email" id="email" class="input" placeholder="Email *" name="email" autocomplete="email"
+                required>
+            <input type="date" name="date" id="date" class="input" min="1934-01-01" max="" required>
+            <input type="password" id="password" class="input" placeholder="Password *" name="password"
+                autocomplete="new-password" required min="6" minlength="6">
+            <button class="form-btn" type="submit" id="sbt">Sign Up</button>
+        </form>
+        <p class="sign-up-label">
+            Already have an account?<a href="/login"><span class="sign-up-link">Log in</span></a>
+        </p>
+    </div>
+</body>
+<script>
+    let index = 1
+    document.getElementById('sbt').addEventListener('click', (e) => {
+        if (index == 1) {
+            confirmInput()
+        }
+        index++
+    })
+
+    function send() {
+        fetch(`/submit_sign_up?name=${document.getElementById('name').value}&email=${document.getElementById('email').value}&date=${document.getElementById('date').value}&password=${document.getElementById('password').value}`)
+            .then(response => response.json())
+            .then(data => {
+                data = JSON.parse(data)
+                if (data[0] === 'true') {
+                    window.location.href = `/Oauth/?email=${data[1]}`
+                } else {
+                    document.getElementById('email').value = ''
+                    document.getElementById('email').placeholder = 'Email Already In Use.'
+                    document.getElementById('email').style.border = '1px solid red'
+                    document.getElementById('email').style.transition = '.5s'
+                    index = 0
+                    setTimeout(() => {
+                        document.getElementById('email').placeholder = 'Email.'
+                        document.getElementById('email').style.border = '1px solid #c0c0c0'
+                        document.getElementById('email').style.transition = '.5s'
+                    }, 2000);
+                }
+            })
+            .catch(error => console.error(error))
+    }
+
+    function confirmInput() {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+        const fullname = /^[a-zA-Z]+([a-zA-Z]{2,40})+$/
+
+        if (emailRegex.test(document.getElementById('email').value)) {
+            if (document.getElementById('name').value.length > 2) {
+
+                if (calculateTimeFromNow() >= 13) {
+                    if (document.getElementById('password').value.length >= 7) {
+                        send()
+                    }
+                    else {
+                        document.getElementById('password').style.border = '1px solid red'
+                        document.getElementById('password').style.transition = '.5s'
+                        index = 0
+                        setTimeout(() => {
+                            document.getElementById('password').style.border = '1px solid #c0c0c0'
+                            document.getElementById('password').style.transition = '.5s'
+                        }, 2000);
+                    }
+                }
+                else {
+                    document.getElementById('date').style.border = '1px solid red'
+                    document.getElementById('date').style.transition = '.5s'
+                    index = 0
+                    setTimeout(() => {
+                        document.getElementById('date').style.border = '1px solid #c0c0c0'
+                        document.getElementById('date').style.transition = '.5s'
+                    }, 2000);
+                }
+
+            }
+            else {
+                document.getElementById('name').value = ''
+                document.getElementById('name').placeholder = 'Name Not Avalable.'
+                document.getElementById('name').style.border = '1px solid red'
+                document.getElementById('name').style.transition = '.5s'
+                index = 0
+                setTimeout(() => {
+                    document.getElementById('name').placeholder = 'Name Not Avalable.'
+                    document.getElementById('name').style.border = '1px solid #c0c0c0'
+                    document.getElementById('name').style.transition = '.5s'
+                }, 2000);
+            }
+        }
+        else {
+            document.getElementById('email').value = ''
+            document.getElementById('email').placeholder = 'Enter A Valid Email Address.'
+            document.getElementById('email').style.border = '1px solid red'
+            document.getElementById('email').style.transition = '.5s'
+            index = 0
+            setTimeout(() => {
+                document.getElementById('email').placeholder = 'Email.'
+                document.getElementById('email').style.border = '1px solid #c0c0c0'
+                document.getElementById('email').style.transition = '.5s'
+            }, 2000);
+        }
+    }
+
+    function calculateTimeFromNow() {
+        if (document.getElementById('date').value.length > 0) {
+            let givenDateInput = document.getElementById("date")
+            let now = new Date();
+            let givenDate = new Date(givenDateInput.value)
+
+            let years = now.getFullYear() - givenDate.getFullYear();
+            let months = now.getMonth() - givenDate.getMonth();
+            let days = now.getDate() - givenDate.getDate();
+
+            if (days < 0) {
+                months--;
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+            }
+
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            return years
+        }
+        else {
+            return 0
+        }
+    }
+
+    function today() {
+        const date = new Date()
+        let year = date.getFullYear()
+        let months = date.getMonth() + 1
+        let month = months.toString()
+        let days = date.getDate()
+        let day = days.toString()
+        document.getElementById("date").max = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`
+    }
+    today()
+</script>
+
+</html>

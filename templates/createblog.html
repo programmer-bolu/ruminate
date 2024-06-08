@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruminate || Create Blog Post</title>
+</head>
+<link
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+    rel="stylesheet">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-thin.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-solid.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-regular.css">
+<link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-light.css">
+
+<link rel="stylesheet" href="{{url_for('static', filename='css/createblog.css')}}">
+
+<body>
+    <div class="error" id="error">
+        <p id="errormessage"></p>
+    </div>
+    <div class="logo">
+        <img src="{{url_for('static', filename='images/ruminate.png')}}" alt="ruminate logo">
+    </div>
+
+    <div id="author" style="display: none;">Ruminate Admin</div>
+    <section class="post">
+        <div class="form">
+
+
+
+            <div class="tile">
+                <p><i class="fa-solid fa-xmark" id="return_to_home"></i> Create A Blog</p>
+                <a id="post">Post</a>
+            </div>
+
+
+
+            <form action="">
+                <textarea type="text" class="title" placeholder="Add a title..." id="title" maxlength="500"></textarea>
+                <textarea name="" id="description" cols="30" rows="10" class="description"
+                    placeholder="Add a description..."></textarea>
+            </form>
+
+
+
+            <div class="tile-second" id="tile2">
+                <div>
+                    <div id="imageadded">
+                        <div id="select" onclick="openimg()">
+                            <i class="fa-solid fa-image" style="font-size: 2em;"></i>
+                        </div>
+
+                    </div>
+                    <div class="selectcategory" id="selcat">
+                        <div class="categoryboard" id="category">
+                            <div class="cancelcat" id="cancelcat" style="display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="opencategory" id="opencat"><span>Select</span>Categories</div>
+            </div>
+
+
+
+        </div>
+
+
+
+        <div class="addImage" id="addImage">
+            <div class="imagepage">
+
+                <div class="showimage">
+
+                    <div class="cancel" id="cancel">
+                        ✕
+                    </div>
+
+                    <div class="previewImage" id="previewimage">
+                        <div id="stats">
+                            <label for="selectimage" class="addbutton">
+                                <input type="file" name="" id="selectimage" style="display: none;"
+                                    accept="image/png, image/jpg, image/jpeg">
+                                +
+                            </label>
+                            <p>Drag and Drop our file here <br>or click to add image</p>
+                        </div>
+                    </div>
+
+                    <input type="text" placeholder="Add image description..." disabled id="imagedescription">
+
+                    <div class="imageaction">
+                        <button class="changeImage" id="changeImage">
+                            Change Image
+                        </button>
+                        <button class="submit-continue" id="submit">
+                            <i class="fa-duotone fa-check"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </section>
+</body>
+<script>
+    function countWords(str) {
+        str = str.trim();
+        const words = str.split(/\s+/);
+        return words.length;
+    }
+
+
+    let imagedata = new FormData()
+
+
+    const textarea = document.querySelector('.description');
+    const title = document.querySelector('.title');
+
+    textarea.addEventListener('input', function (event) {
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
+    title.addEventListener('input', function (event) {
+            this.style.height = 'auto';
+            this.style.height = (this.scrollHeight) + 'px';
+        });
+
+    const dragBox = document.getElementById('previewimage')
+
+    let selectImage = document.getElementById('selectimage')
+
+    dragBox.addEventListener('dragover', (e) => {
+        e.preventDefault()
+        let addfile = document.getElementById('selectimage')
+        if (addfile) {
+            dragBox.style.backgroundColor = 'rgb(230, 230, 247)'
+        }
+    })
+
+    dragBox.addEventListener('dragleave', (e) => {
+        e.preventDefault()
+        let addfile = document.getElementById('selectimage')
+        if (addfile) {
+            dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+        }
+    })
+
+    dragBox.addEventListener('drop', (e) => {
+        e.preventDefault();
+        let addfile = document.getElementById('selectedimage')
+        if (!addfile) {
+            const files = e.dataTransfer.files;
+            let file = files;
+            if (file[0]) {
+                file = files[0]
+                checkImage(file)
+                dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+            } else {
+                dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+                return false;
+            }
+        }
+
+    })
+
+    document.getElementById('selectimage').addEventListener('change', (e) => {
+        let addfile = document.getElementById('selectedimage')
+        if (!addfile) {
+            const file = selectImage.files[0];
+            checkImage(file)
+            dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+        }
+    })
+
+    function checkImage(file) {
+        let reader = new FileReader()
+
+        const acceptedFile = ['image/jpeg', 'image/png', 'image/jpg']
+        if (acceptedFile.includes(file.type)) {
+            reader.onload = (event) => {
+                const imageUrl = event.target.result;
+                img = document.createElement('img');
+                img.id = 'selectedimage'
+                img.src = imageUrl;
+                image = imageUrl
+                imagedescription.disabled = false
+                stats.style.display = 'none'
+                imagedata.append('image', file)
+                dragBox.appendChild(img)
+            }
+        } else {
+            alert('File Type Not Supported')
+        }
+        reader.readAsDataURL(file);
+    }
+
+    document.getElementById('cancel').addEventListener('click', () => {
+        if (document.getElementById('selectedimage')) {
+            let result = window.confirm("The image have not been saved. Are you sure you want to quit?")
+            if (result) {
+                dragBox.removeChild(document.getElementById('selectedimage'))
+                addImage.style.opacity = '0';
+                setTimeout(() => {
+                    addImage.style.display = 'none'
+                    addImage.style.opacity = '1';
+                }, 400)
+                imagedescription.disabled = true;
+                dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+                dragBox.style.border = 'none';
+            }
+        } else {
+            addImage.style.opacity = '0';
+            setTimeout(() => {
+                addImage.style.display = 'none'
+                addImage.style.opacity = '1';
+            }, 400)
+            imagedescription.disabled = true;
+            dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+        }
+    })
+
+    function openimg() {
+        if (document.getElementById('newimg')) {
+            removeimg.style.backgroundColor = '#c97035'
+            setTimeout(() => {
+                removeimg.style.backgroundColor = '#f48840'
+            }, 500)
+        } else {
+            imagedescription.disabled = true
+            imagedescription.value = ''
+            addImage.style.animationName = 'scale'
+            addImage.style.display = 'flex';
+            stats.style.display = 'block'
+            if (document.getElementById('selectedimage')) {
+                dragBox.removeChild(document.getElementById('selectedimage'))
+                dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+                dragBox.style.border = 'none'
+            }
+            dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+            dragBox.style.border = '#f48840'
+        }
+    }
+
+    document.getElementById('changeImage').addEventListener('click', () => {
+        selectedimage.style.display = 'none'
+        dragBox.removeChild(document.getElementById('selectedimage'))
+        stats.style.display = 'block'
+        dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+        dragBox.style.border = 'none'
+        imagedescription.value = ''
+        imagedescription.disabled = true
+    })
+
+    submit.addEventListener('click', () => {
+        if (document.getElementById('selectedimage')) {
+            if (imagedescription.value.length > 0) {
+                addImage.style.opacity = '0';
+                setTimeout(() => {
+                    addImage.style.display = 'none'
+                    addImage.style.opacity = '1';
+                }, 400)
+                imagedescription.disabled = true;
+                dragBox.style.backgroundColor = 'rgb(233, 239, 255)'
+                dragBox.style.border = 'none';
+                imageadded.innerHTML += `
+                <div class="newImage" style="background-image: url(${image});" id="newimg">
+                    <div class="remove" id="removeimg">
+                        <i class="fa-solid fa-minus"></i>
+                    </div>
+                </div>
+                `
+                removeimg.addEventListener('click', () => {
+                    newimg.remove()
+                    imagedata.delete('image')
+                })
+            } else {
+                imagedescription.style.borderBottom = '1px solid red'
+                imagedescription.placeholder = 'Image description required *'
+                setTimeout(() => {
+                    imagedescription.style.borderBottom = '1px solid rgba(0, 0, 0, 0.616)'
+                    imagedescription.placeholder = 'Add image description...'
+                }, 2000)
+            }
+        } else {
+            dragBox.style.border = '1px solid red'
+            setTimeout(() => {
+                dragBox.style.border = 'none'
+            }, 2000)
+        }
+    })
+    function formatText() {
+        const text = textarea.value;
+
+        // Convert new lines to <br>
+        let formattedText = text.replace(/\n/g, '<br>');
+
+        // Convert URLs to <a> tags
+        const urlPattern = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+        formattedText = formattedText.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+
+        return formattedText;
+    }
+    document.getElementById('post').addEventListener('click', () => {
+        if (title.value.length >= 2 && countWords(title.value) <= 20) {
+            if (countWords(description.value) >= 150) {
+                if(post_categories.length > 0){
+                    post()
+                }else{
+                    errormessage.innerHTML = 'You must select at least one category'
+                    error.style.display = 'flex'
+                    setTimeout(() => {
+                        error.style.display = 'none'
+                    }, 3000);
+                    window.scroll({top:0, left:0, behavior: "smooth"})
+                }
+            }
+            else{
+                errormessage.innerHTML = 'The Description should have 150 words minimum'
+                error.style.display = 'flex'
+                setTimeout(() => {
+                    error.style.display = 'none'
+                }, 3000);
+                window.scroll({top:0, left:0, behavior: "smooth"})
+            }
+        }else{
+            errormessage.innerHTML = 'The Title should have 2 words min and 20 words max'
+            error.style.display = 'flex'
+            setTimeout(() => {
+                error.style.display = 'none'
+            }, 3000);
+            window.scroll({top:0, left:0, behavior: "smooth"})
+        }
+    })
+    function post() {
+        let time = new Date
+        let month = time.getMonth() + 1
+        month = month.toString()
+        let day = time.getDate()
+        day = day.toString()
+        let hour = time.getHours()
+        hour = hour.toString()
+        let minute = time.getMinutes()
+        minute = minute.toString()
+
+        let fulltime = `${day.padStart(2, 0)}/${month.padStart(2, 0)}/${time.getFullYear()}, ${hour.padStart(2, 0)}:${minute.padStart(2, 0)}`
+
+        data = {
+            title: title.value,
+            description: formatText(description.value),
+            date: fulltime,
+            Author: '{{author_name}}',
+            imagedescription: imagedescription.value,
+            user_id: '{{author_id}}',
+            categories: post_categories
+        }
+
+        imagedata.append('data', JSON.stringify(data))
+
+        fetch('/post', {
+            method: 'POST',
+            body: imagedata
+        })
+        .then(response => response.json())
+        .then(data => {
+            data = JSON.parse(data)
+            if (data == true) {
+                window.location.href = `/home?user_id=${'{{author_id}}'}`
+            }else{
+                window.location.href = `/home?user_id=${'{{author_id}}'}&error='network error'`
+            }
+        })
+        .catch(err => console.log(err))
+    }
+</script>
+<script>
+    let categories = [
+        "Artificial Intelligence",
+        "Gadgets & Reviews",
+        "Software Development",
+        "Cybersecurity",
+        "Tech News",
+        "Health & Wellness",
+        "Travel",
+        "Home & Garden",
+        "Minimalism",
+        "Relationships",
+        "Entrepreneurship",
+        "Marketing & Sales",
+        "Leadership & Management",
+        "Finance & Investing",
+        "Startups",
+        "Productivity",
+        "Mindfulness & Meditation",
+        "Motivation & Inspiration",
+        "Career Development",
+        "Education & Learning",
+        "Writing & Literature",
+        "Photography",
+        "Music",
+        "Art & Design",
+        "Film & Theater",
+        "Recipes",
+        "Restaurant Reviews",
+        "Cooking Tips & Techniques",
+        "Nutrition",
+        "Wine & Spirits",
+        "Movies & TV Shows",
+        "Music & Concerts",
+        "Books & Literature",
+        "Video Games",
+        "Celebrity News",
+        "Trends & Styles",
+        "Beauty Tips & Tutorials",
+        "Fashion Industry News",
+        "Skincare",
+        "Makeup Reviews",
+        "Workout Routines",
+        "Sports News",
+        "Nutrition & Diet",
+        "Fitness Tips",
+        "Athlete Interviews",
+        "Space Exploration",
+        "Environmental Issues",
+        "Wildlife & Conservation",
+        "Health & Medicine",
+        "Research & Discoveries",
+        "Car Reviews",
+        "Maintenance Tips",
+        "Industry News",
+        "Motorcycles",
+        "Electric Vehicles",
+        "Parenting Tips",
+        "Child Development",
+        "Family Activities",
+        "Education & Schooling",
+        "Work-Life Balance",
+        "Personal Finance",
+        "Investing Tips",
+        "Market News",
+        "Retirement Planning",
+        "Real Estate",
+        "Home Improvement",
+        "Craft Projects",
+        "Tutorials & How-Tos",
+        "Sustainable Living",
+        "Upcycling Ideas",
+        "Destination Guides",
+        "Travel Tips",
+        "Cultural Experiences",
+        "Adventure Sports",
+        "Budget Travel",
+        "Game Reviews",
+        "Industry News",
+        "Tips & Tricks",
+        "Esports",
+        "Game Development",
+        "Pet Care Tips",
+        "Animal Behavior",
+        "Pet Health",
+        "Wildlife Conservation",
+        "Pet Training",
+        "Sustainable Practices",
+        "Renewable Energy",
+        "Eco-Friendly Products",
+        "Organic Gardening",
+        "Climate Change",
+        "Historical Events",
+        "Biographies",
+        "Archaeology",
+        "War & Conflict",
+        "Cultural History",
+        "Human Rights",
+        "Equality & Justice",
+        "Politics & Government",
+        "Community Development",
+        "Mental Health Awareness"
+    ]
+
+    let category = document.getElementById('category')
+    categories.forEach((element, i) => {
+        let ele = `
+        <label class="cat" for="ele${i}">
+            <label class="container">
+                <input type="checkbox" id="ele${i}" class="box">
+                <div class="checkmark"></div>
+            </label>
+            ${element}
+        </label>
+        `
+        category.innerHTML += ele
+    })
+
+    let post_categories = []
+    document.getElementById('opencat').addEventListener('click', ()=>{
+        document.getElementById('selcat').style.display = 'flex'
+        document.getElementById('opencat').style.display = 'none'
+        window.scroll({top:0, left:0, behavior: "smooth"})
+    })
+    document.getElementById('cancelcat').addEventListener('click', ()=>{
+        document.querySelectorAll('.box').forEach(((el, i)=>{
+            if (el.checked) {
+                post_categories.push(categories[i])
+            }
+        }))
+        document.getElementById('selcat').style.opacity = 0
+        document.getElementById('opencat').style.display = 'flex'
+        setTimeout(() => {
+            document.getElementById('selcat').style.display = 'none'
+            document.getElementById('selcat').style.opacity = 1
+        }, 400);
+
+        document.getElementById('return_to_home').addEventListener('click', ()=>{
+            alert()
+            window.location.href = `/home?user=${'{{author_id}}'}`
+        })
+
+    })
+</script>
+
+</html>

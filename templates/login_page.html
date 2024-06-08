@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dir">
+        <a href="/">Home</a> / Login
+    </div>
+    <div class="form-container">
+        <p class="title">Login Ruminate</p>
+        <form class="form" method="post">
+            <input type="email" class="input" placeholder="Email" name="email" autocomplete="email" id="email"
+                autofocus>
+            <input type="password" class="input" placeholder="Password" name="password" autocomplete="current-password"
+                id="password">
+            <p class="page-link">
+                <a href="/forgotpassword/"><span class="page-link-label">Forgot Password?</span></a>
+            </p>
+            <button class="form-btn" type="submit" id="submit">Log in</button>
+        </form>
+        <p class="sign-up-label">
+            Don't have an account?<a href="/register"><span class="sign-up-link">Sign up</span></a>
+        </p>
+    </div>
+</body>
+<script>
+    document.getElementById('submit').addEventListener('click', (e) => {
+        e.preventDefault()
+        document.getElementById('submit').innerHTML = '<i class="fa-solid fa-load fa-spin"></i>'
+        data = {
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
+        }
+
+        fetch('/authlogin/another/vesel/ruminate/login/attack/disabled/true', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ data })
+        })
+            .then(response => response.json())
+            .then(data => {
+                data = JSON.parse(data)
+                if (data[0] === 'res2') {
+                    let id = "{{ id }}"
+                    window.location.href = `/home?user_id=${data[2]}`
+                }
+                else if (data[0] === 'res3') {
+                    let name = data[1]
+                    window.location.href = `/Oauth/?email=${document.getElementById('email').value}`
+                }
+                else if (data[0] === 'res4' || data[0] == 'res5') {
+                    document.getElementById('password').value = ''
+                    document.getElementById('password').placeholder = 'Wrong Password.'
+                    document.getElementById('password').style.border = '1px solid red'
+                    document.getElementById('password').style.transition = '.5s'
+                    document.getElementById('submit').innerHTML = 'Log in'
+                    index = 0
+                    setTimeout(() => {
+                        document.getElementById('password').placeholder = 'Password.'
+                        document.getElementById('password').style.border = '1px solid #c0c0c0'
+                        document.getElementById('password').style.transition = '.5s'
+                    }, 2000);
+                }
+                else {
+                    document.getElementById('email').value = ''
+                    document.getElementById('password').value = ''
+                    document.getElementById('email').placeholder = 'No Account Registered With Email.'
+                    document.getElementById('email').style.border = '1px solid red'
+                    document.getElementById('email').style.transition = '.5s'
+                    document.getElementById('submit').innerHTML = 'Log in'
+                    index = 0
+                    setTimeout(() => {
+                        document.getElementById('email').placeholder = 'Email.'
+                        document.getElementById('email').style.border = '1px solid #c0c0c0'
+                        document.getElementById('email').style.transition = '.5s'
+                    }, 2000);
+                }
+            })
+            .catch(error => console.error(error));
+    })
+</script>
+
+</html>

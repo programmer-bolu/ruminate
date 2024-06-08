@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/confirmemail.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dir">
+        <a href="/">Home</a> / <a href="/register">Register</a> / Confirm Email
+    </div>
+    <div class="form-container">
+        <div hidden id="na">{{name}}</div>
+        <div hidden id="pa">{{password}}</div>
+        <div class="logo-container">
+            Confirm Email Address
+        </div>
+        <p class="email" id="email">{{email}}</p>
+        <form class="form">
+            <div class="form-group">
+                <input type="number" id="num1">
+                <input type="number" id="num2" disabled>
+                <input type="number" id="num3" disabled>
+                <input type="number" id="num4" disabled>
+                <input type="number" id="num5" disabled>
+                <input type="number" id="num6" disabled>
+            </div>
+        </form>
+
+        <p class="signup-link">
+            Don't have an account?
+            <a href="/register" class="signup-link link"> Sign up now</a>
+        </p>
+    </div>
+</body>
+<script>
+    document.getElementById('num1').focus()
+    const inputs = document.querySelectorAll('input');
+    arr = ['num1', 'num2', 'num3', 'num4', 'num5', 'num6']
+
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length == 1) {
+                if (index < inputs.length - 1) {
+                    inputs[index + 1].disabled = false;
+                    inputs[index + 1].focus()
+                } else {
+                    inputs[index].disabled = true;
+                    let code = ''
+                    arr.forEach((el) => {
+                        code += document.getElementById(el).value
+                    })
+                    send(code, document.getElementById('email').innerHTML, document.getElementById('na').innerHTML, document.getElementById('pa').innerHTML)
+                }
+            }
+        })
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && e.target.value === '') {
+                if (index >= 1) {
+                    inputs[index - 1].focus()
+                }
+            }
+        })
+        input.addEventListener('paste', function (e) {
+            const pasteValue = e.clipboardData.getData('text');
+            if (pasteValue.length == 6) {
+                setTimeout(() => {
+                    Array.from(inputs).forEach((inp, ind) => {
+                        inp.value = pasteValue[ind]
+                        inp.disabled = true
+                    })
+                    let code = ''
+                    arr.forEach((inp) => {
+                        code += document.getElementById(inp).value
+                    })
+                    send(code, document.getElementById('email').innerHTML, document.getElementById('na').innerHTML, document.getElementById('pa').innerHTML)
+                });
+            } else {
+                setTimeout(() => {
+                    Array.from(inputs).forEach((inp) => {
+                        inp.value = null
+                    })
+                });
+            }
+        })
+    })
+
+    function send(code, email, name, password) {
+        fetch(`/verify/?email=${email}&code=${code}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data[0] == 'true') {
+                    let id = "{{ id }}"
+                    window.location.href = `/home?user_id=${id}`
+                } else {
+                    alert('Wrong verification code')
+                    num1.focus()
+                    inputs.forEach((el)=>{
+                        el.value = null
+                    })
+                }
+            })
+            .catch(error => console.log('Error :' + error))
+    }
+</script>
+
+</html>

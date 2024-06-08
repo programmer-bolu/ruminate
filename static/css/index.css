@@ -229,7 +229,10 @@ header .navbar {
 .owl-banner .item .item-content {
 	position: absolute;
 	bottom: 40px;
-	left: 40px;
+	background-color: rgba(0, 0, 0, 0.397);
+	padding: 10px;
+	min-height: 179px;
+	width: 100%;
 }
 
 .owl-banner .item .item-content .meta-category span {

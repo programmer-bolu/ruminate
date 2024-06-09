@@ -131,6 +131,8 @@ connect = data.cursor()
 #     value = [i, 0]
 #     connect.execute('INSERT INTO categories (name, posts_under_category) VALUES(%s, %s)', value)
 #     data.commit()
+# connect.execute('CREATE TABLE blog_comments (id INTEGER PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), email VARCHAR(255), comment LONGTEXT, blog_id LONGTEXT)')
+# connect.execute('ALTER TABLE blog_comments ADD COLUMN date VARCHAR(255)')
 
 
 def check_email(email):
@@ -335,3 +337,14 @@ def get_all_blogs():
     connect.execute(f'SELECT * FROM blogs')
     data = connect.fetchall()
     return data
+
+def get_post_comment(blog):
+    connect.execute(f'SELECT * FROM blog_comments')
+    data = connect.fetchall()
+    comments = []
+    for i in data:
+        if i[4] == blog:
+            comments.append(i)
+
+    return comments
+    

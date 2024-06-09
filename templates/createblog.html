@@ -36,7 +36,7 @@
 
 
             <div class="tile">
-                <p><i class="fa-solid fa-xmark" id="return_to_home"></i> Create A Blog</p>
+                <p><a href="/home?user_id={{author_id}}"><i class="fa-solid fa-xmark" id="return_to_home" style="color: black;"></i></a> Create A Blog</p>
                 <a id="post">Post</a>
             </div>
 
@@ -59,9 +59,13 @@
 
                     </div>
                     <div class="selectcategory" id="selcat">
-                        <div class="categoryboard" id="category">
-                            <div class="cancelcat" id="cancelcat" style="display: flex; align-items: center; justify-content: center;">
-                                <i class="fa-solid fa-xmark"></i>
+                        <div class="categoryboard" id="category"><input type="text" id="searchcategory" placeholder="Search Category. . .">
+                            <div class="cancelcat" id="cancelcat"
+                                style="display: flex; align-items: center; justify-content: center;">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                            <div class="cattt" id="cattt">
+
                             </div>
                         </div>
                     </div>
@@ -136,9 +140,9 @@
         this.style.height = (this.scrollHeight) + 'px';
     });
     title.addEventListener('input', function (event) {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
+        this.style.height = 'auto';
+        this.style.height = (this.scrollHeight) + 'px';
+    });
 
     const dragBox = document.getElementById('previewimage')
 
@@ -318,33 +322,33 @@
     document.getElementById('post').addEventListener('click', () => {
         if (title.value.length >= 2 && countWords(title.value) <= 20) {
             if (countWords(description.value) >= 150) {
-                if(post_categories.length > 0){
+                if (post_categories.length > 0) {
                     postload.style.display = 'flex'
                     post()
-                }else{
+                } else {
                     errormessage.innerHTML = 'You must select at least one category'
                     error.style.display = 'flex'
                     setTimeout(() => {
                         error.style.display = 'none'
                     }, 3000);
-                    window.scroll({top:0, left:0, behavior: "smooth"})
+                    window.scroll({ top: 0, left: 0, behavior: "smooth" })
                 }
             }
-            else{
+            else {
                 errormessage.innerHTML = 'The Description should have 150 words minimum'
                 error.style.display = 'flex'
                 setTimeout(() => {
                     error.style.display = 'none'
                 }, 3000);
-                window.scroll({top:0, left:0, behavior: "smooth"})
+                window.scroll({ top: 0, left: 0, behavior: "smooth" })
             }
-        }else{
+        } else {
             errormessage.innerHTML = 'The Title should have 2 words min and 20 words max'
             error.style.display = 'flex'
             setTimeout(() => {
                 error.style.display = 'none'
             }, 3000);
-            window.scroll({top:0, left:0, behavior: "smooth"})
+            window.scroll({ top: 0, left: 0, behavior: "smooth" })
         }
     })
     function post() {
@@ -376,18 +380,18 @@
             method: 'POST',
             body: imagedata
         })
-        .then(response => response.json())
-        .then(data => {
-            data = JSON.parse(data)
-            if (data == true) {
-                window.location.href = `/home?user_id=${'{{author_id}}'}`
-                postload.style.display = 'none'
-            }else{
-                window.location.href = `/home?user_id=${'{{author_id}}'}&error='network error'`
-                postload.style.display = 'none'
-            }
-        })
-        .catch(err => console.log(err))
+            .then(response => response.json())
+            .then(data => {
+                data = JSON.parse(data)
+                if (data == true) {
+                    window.location.href = `/home?user_id=${'{{author_id}}'}`
+                    postload.style.display = 'none'
+                } else {
+                    window.location.href = `/home?user_id=${'{{author_id}}'}&error='network error'`
+                    postload.style.display = 'none'
+                }
+            })
+            .catch(err => console.log(err))
     }
 </script>
 <script>
@@ -494,28 +498,33 @@
         "Mental Health Awareness"
     ]
 
-    let category = document.getElementById('category')
-    categories.forEach((element, i) => {
-        let ele = `
-        <label class="cat" for="ele${i}">
-            <label class="container">
-                <input type="checkbox" id="ele${i}" class="box">
-                <div class="checkmark"></div>
-            </label>
-            ${element}
-        </label>
+    let category = document.getElementById('cattt')
+
+    function displayCategories(filteredCategories) {
+        category.innerHTML = ''
+        filteredCategories.forEach((element, i) => {
+            let ele = `
+                <label class="cat" for="ele${i}">
+                    <label class="container">
+                        <input type="checkbox" id="ele${i}" class="box">
+                        <div class="checkmark"></div>
+                    </label>
+                    ${element}
+                </label>
         `
-        category.innerHTML += ele
-    })
+            category.innerHTML += ele
+        });
+    }
+    displayCategories(categories)
 
     let post_categories = []
-    document.getElementById('opencat').addEventListener('click', ()=>{
+    document.getElementById('opencat').addEventListener('click', () => {
         document.getElementById('selcat').style.display = 'flex'
         document.getElementById('opencat').style.display = 'none'
-        window.scroll({top:0, left:0, behavior: "smooth"})
+        window.scroll({ top: 0, left: 0, behavior: "smooth" })
     })
-    document.getElementById('cancelcat').addEventListener('click', ()=>{
-        document.querySelectorAll('.box').forEach(((el, i)=>{
+    document.getElementById('cancelcat').addEventListener('click', () => {
+        document.querySelectorAll('.box').forEach(((el, i) => {
             if (el.checked) {
                 post_categories.push(categories[i])
             }
@@ -527,12 +536,15 @@
             document.getElementById('selcat').style.opacity = 1
         }, 400);
 
-        document.getElementById('return_to_home').addEventListener('click', ()=>{
-            alert()
-            window.location.href = `/home?user=${'{{author_id}}'}`
-        })
-
     })
+
+    searchcategory.addEventListener('input', () => {
+        const searchTerm = searchcategory.value.toLowerCase();
+        const filteredCategories = categories.filter(category =>
+            category.toLowerCase().includes(searchTerm)
+        );
+        displayCategories(filteredCategories);
+    });
 </script>
 
 </html>

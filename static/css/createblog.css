@@ -2,14 +2,15 @@ body {
     font-family: poppins;
     background-color: rgb(233, 239, 255);
 }
- body,
- html {
-     margin: 0;
-     padding: 0;
-     height: 100%;
-     width: 100%;
-     overflow-x: hidden;
- }
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden;
+}
 
 .logo {
     margin: auto;
@@ -50,7 +51,8 @@ body {
 .error p {
     padding-left: 15px;
 }
-.error i{
+
+.error i {
     position: relative;
     left: 23%;
     cursor: pointer;
@@ -224,7 +226,16 @@ body {
 
 .post .form .tile-second div .selectcategory .categoryboard {
     width: 90% !important;
-    min-height: 600px;
+    background-color: rgb(247, 247, 247);
+    padding: 20px;
+    position: relative;
+    border-radius: 10px;
+    padding-top: 50px;
+    transition: .3s;
+}
+
+.post .form .tile-second div .selectcategory .categoryboard .cattt {
+    width: 90% !important;
     background-color: rgb(247, 247, 247);
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -232,7 +243,6 @@ body {
     padding: 20px;
     position: relative;
     border-radius: 10px;
-    padding-top: 50px;
 }
 
 .post .form .tile-second div .selectcategory .categoryboard label {
@@ -240,6 +250,7 @@ body {
     justify-content: left;
     cursor: pointer;
     gap: 10px;
+    transition: height 0.3s;
 }
 
 /* Hide the default checkbox */
@@ -326,6 +337,8 @@ body {
 
 .opencategory {
     border-left: 2px solid rgba(0, 0, 0, 0.356);
+    border-bottom: 2px solid rgba(0, 0, 0, 0.356);
+    border-right: 2px solid rgba(0, 0, 0, 0.356);
     padding: 3px 10px;
     position: relative;
     cursor: pointer;
@@ -340,7 +353,7 @@ body {
     margin-right: -13px;
 }
 
-.postload{
+.postload {
     position: absolute;
     top: 0;
     left: 0;
@@ -353,10 +366,24 @@ body {
     justify-content: center;
     font-size: 5em;
 }
-.postload i{
+
+.postload i {
     animation-duration: .4s;
 }
 
+#searchcategory {
+    position: absolute;
+    top: 0;
+    margin: 10px 20px;
+    height: 20px;
+    width: 250px;
+    font-family: poppins;
+    font-size: .8em;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: thin solid #2196F3;
+    outline: none !important;
+}
 
 .addImage {
     width: 100%;
@@ -523,6 +550,13 @@ body {
     .addImage .imagepage {
         width: 95%;
     }
+    .error{
+        margin: auto;
+        width: 100%;
+        border-left: none;
+        text-align: center !important;
+        padding: 10px 0 !important;
+    }
 }
 
 @media (max-width: 600px) {
@@ -546,6 +580,11 @@ body {
 
     .opencategory span {
         display: none;
+    }
+}
+@media (max-width: 400px) {
+    #searchcategory{
+        width: 200px;
     }
 }
 

@@ -31,8 +31,17 @@ def index():
     categories = sv.categories()
     random.shuffle(categories)
     blogs = sv.get_all_blogs()
+    recent = []
     random.shuffle(blogs)
-    return render_template('index.html', categories = categories, blogs=blogs)
+    for i in range(len(blogs)):
+        blogs[i] = list(blogs[i])
+        blogs[i][10] = eval(blogs[i][10])
+        if is_less_than_24_hours(blogs[i][1]):
+            recent.append(blogs[i])
+
+    random.shuffle(recent)
+        
+    return render_template('index.html', categories = categories, blogs=blogs, recent=recent)
 
 @app.route('/login')
 def login():
@@ -193,11 +202,12 @@ def newpassword():
 def get_blog():
     author_id = request.args.get('author_id')
     title = request.args.get('blog_title')
+    comments = sv.get_post_comment('author_id=' + author_id + '&blog_title=' + title)
+    post_has_comment = len(comments)
     recent = []
     categories = sv.categories()
     random.shuffle(categories)
     blog = sv.get_blog(author_id, title)
-    print(blog)
     blog[0] = list(blog[0])
     blog[0][10] = eval(blog[0][10])
     for i in sv.get_all_blogs():
@@ -205,7 +215,7 @@ def get_blog():
             recent.append(i)
     random.shuffle(recent)
 
-    return render_template('blog.html', blog=blog, categories=categories, recent=recent)
+    return render_template('blog.html', blog=blog, categories=categories, recent=recent, comment=comments, hascomment = post_has_comment)
 
 @app.get('/blogger/create/blog')
 def create_blog():
@@ -266,5 +276,31 @@ def home():
     else:
         user_has_blogs = False
         return render_template('profile.html', user_name=sv.get_user_data(id)['name'], user_has_blogs=user_has_blogs, id=id)
+
+@app.post('/receive_comment/async')
+def comment():
+    comment = request.json.get('message')
+    name = request.json.get('name')
+    email = request.json.get('email')
+    blog_aut = request.json.get('blog_aut')
+    blog_tit = request.json.get('blog_tit')
+    blog_id = 'author_id=' + blog_aut + '&blog_title=' + blog_tit
+    date = request.json.get('time')
+    blog = sv.get_blog(blog_aut, blog_tit)
+    
+    if blog[0][4] == None:
+        sv.connect.execute(f'UPDATE blogs SET comments="1" WHERE author_id="{blog_aut}" AND title="{blog_tit}"')
+    else:
+        sv.connect.execute(f'UPDATE blogs SET comments="{int(blog[0][4]) + 1}" WHERE author_id="{blog_aut}" AND title="{blog_tit}"')
+    post_comment = [name, email, comment, blog_id, date]
+    send_to_server = 'INSERT INTO blog_comments (name, email, comment, blog_id, date) VALUES (%s, %s, %s, %s, %s)'
+    sv.connect.execute(send_to_server, post_comment)
+    sv.data.commit()
+    return jsonify('true')
+
+@app.route('/blog/allblogs')
+def logout():
+    blogs = sv.get_all_blogs()
+    return render_template('blog_page.html', blogs=blogs)
 
 app.run(debug=True)

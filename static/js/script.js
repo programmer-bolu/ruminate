@@ -36,10 +36,10 @@ $(document).ready(function () {
             0: {
                 items: 1
             },
-            600: {
-                items: 1
+            900: {
+                items: 2
             },
-            1100: {
+            1200: {
                 items: 3
             }
         },

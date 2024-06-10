@@ -12,7 +12,11 @@
         rel="stylesheet">
 
     <title>Ruminate | Daily blog | Inspiration</title>
-
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-thin.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-light.css">
 
     <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 
@@ -40,18 +44,18 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Categories</a>
+                            <a class="nav-link" href="/category">Categories</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">Features</a>
+                            <a class="nav-link" href="/contact/ruminate">Contact us</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="">About</a>
+                            <a class="nav-link" href="/aboutus/ruminate">About</a>
                         </li>
                     </ul>
                 </div>
             </div>
-    
+
         </nav>
     </header>
 
@@ -64,7 +68,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <span>Ruminate Blog Home</span>
-                                <h4>Create and publish your <strong id="textchange"></strong></h4>
+                                <h4>Create and publish your Blog</h4>
                             </div>
                             <div class="col-lg-4">
                                 <div class="main-button">
@@ -99,12 +103,8 @@
                                             <li><a href="#">{{blog[0][1]}}</a></li>
                                             <li><a href="#comments">
                                                     Comments :
-                                                    {% if hascomment < 1 %}
-                                                    0
-                                                    {% else %}
-                                                    {{hascomment}}
-                                                    {% endif %}
-                                                </a></li>
+                                                    {% if hascomment < 1 %} 0 {% else %} {{hascomment}} {% endif %} </a>
+                                            </li>
                                         </ul>
 
                                         <p class="blog_description">{{blog[0][7]|safe}}</p>
@@ -135,14 +135,14 @@
                                     <div class="content">
                                         <ul>
                                             {% if hascomment > 0 %}
-                                                {% for comments in comment %}
-                                                <li>
-                                                    <div class="right-content">
-                                                        <h4>{{comments[1].title()}}<span>{{comments[5]}}</span></h4>
-                                                        <p>{{comments[3].lower()}}</p>
-                                                    </div>
-                                                </li>
-                                                {% endfor %}
+                                            {% for comments in comment %}
+                                            <li>
+                                                <div class="right-content">
+                                                    <h4>{{comments[1].title()}}<span>{{comments[5]}}</span></h4>
+                                                    <p>{{comments[3].lower()}}</p>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
 
                                             {% else %}
                                             <h1>No Comment Yet, Be the first to comment!</h1>
@@ -195,14 +195,6 @@
                     <div class="sidebar">
                         <div class="row">
                             <div class="col-lg-12">
-                                <div class="sidebar-item search">
-                                    <form id="search_form" name="gs" method="GET" action="">
-                                        <input type="text" name="q" class="searchText" placeholder="type to search..."
-                                            autocomplete="on">
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
                                 <div class="sidebar-item recent-posts">
                                     <div class="sidebar-heading">
                                         <h2>Recent Posts</h2>
@@ -227,12 +219,18 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li><a href="#">- {{categories[0]}}</a></li>
-                                            <li><a href="#">- {{categories[1]}}</a></li>
-                                            <li><a href="#">- {{categories[2]}}</a></li>
-                                            <li><a href="#">- {{categories[3]}}</a></li>
-                                            <li><a href="#">- {{categories[4]}}</a></li>
-                                            <li><a href="#">- {{categories[5]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[0]}}">-
+                                                    {{categories[0]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[1]}}">-
+                                                    {{categories[1]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[2]}}">-
+                                                    {{categories[2]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[3]}}">-
+                                                    {{categories[3]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[4]}}">-
+                                                    {{categories[4]}}</a></li>
+                                            <li><a href="/blog/category?category={{categories[5]}}">-
+                                                    {{categories[5]}}</a></li>
                                         </ul>
                                     </div>
                                 </div>
@@ -243,9 +241,31 @@
             </div>
         </div>
     </section>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <ul class="social-icons">
+                        <li><a href="#">Facebook</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Behance</a></li>
+                        <li><a href="#">Linkedin</a></li>
+                        <li><a href="#">Dribbble</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-12">
+                    <div class="copyright-text">
+                        <p>Copyright 2024 Ruminate.
 
+                            | Design: <a rel="nofollow" href="" target="_parent">ruminate</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     function comment(name, email, message) {
         let time = new Date
@@ -274,17 +294,17 @@
                 blog_tit: '{{blog[0][6]}}'
             })
         })
-        .then(respose => respose.json())
-        .then(data => {
-            data = JSON.parse(data)
-            if (data == true) {
-                window.location.reload()
-            }
-        })
-        
+            .then(respose => respose.json())
+            .then(data => {
+                data = JSON.parse(data)
+                if (data == true) {
+                    window.location.reload()
+                }
+            })
+
     }
 
-    document.getElementById('form-submit').addEventListener('click', (e)=>{
+    document.getElementById('form-submit').addEventListener('click', (e) => {
         e.preventDefault()
         let name = document.getElementById('name').value
         let email = document.getElementById('email').value

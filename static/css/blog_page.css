@@ -544,12 +544,135 @@ ul.page-numbers li a:hover {
 .sidebar .search input::placeholder {
     color: #aaa;
 }
+#titl li{
+    margin-top: 50px;
+}
+#titl li:hover a{
+    color: #f48840;
+}
+#titl li a{
+    color: black;
+    transition: .3s;
+    font-weight: 700;
+}
+.Btn {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(#f48840, #fb9857);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    left: calc(99vw - 50px);
+    top: 90%;
+    border: none;
+}
+
+.arrow path {
+    fill: white;
+}
+
+.text {
+    font-size: 0.7em;
+    width: 100px;
+    position: absolute;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -18px;
+    opacity: 0;
+    transition-duration: .7s;
+}
+
+.Btn:hover .text {
+    opacity: 1;
+    transition-duration: .7s;
+}
+
+.Btn:hover .arrow {
+    animation: slide-in-bottom .7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
+}
+
+@keyframes slide-in-bottom {
+    0% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+footer {
+    margin-top: 100px;
+    text-align: center;
+    background-color: #20232e;
+    padding: 60px 0px;
+}
+
+footer ul.social-icons {
+    padding-bottom: 60px;
+    margin-bottom: 60px;
+    border-bottom: 1px solid rgba(250, 250, 250, 0.15);
+}
+
+footer ul.social-icons li {
+    display: inline-block;
+    margin-right: 30px;
+}
+
+footer ul.social-icons li:after {
+    content: "|";
+    color: #fff;
+    margin-left: 30px;
+}
+
+footer ul.social-icons li:last-child {
+    margin-right: 0px;
+}
+
+footer ul.social-icons li:last-child::after {
+    display: none;
+}
+
+footer ul.social-icons li a {
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #fff;
+    font-weight: 500;
+    letter-spacing: 0.25px;
+    transition: all .3s;
+}
+
+footer ul.social-icons li a:hover {
+    color: #f48840;
+}
+
+footer p {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+footer p a {
+    color: #f48840;
+}
+
+footer p a:hover {
+    color: #f48840;
+}
 
 
-
-
-
-
+@media (max-width: 1000px) {
+    .blog-posts .sidebar{
+        display: none;
+    }
+}
 @media (max-width: 992px) {
     .navbar .navbar-brand {
         position: absolute;
@@ -573,7 +696,7 @@ ul.page-numbers li a:hover {
     #navbarResponsive {
         z-index: 99999;
         position: absolute;
-        top: 80px;
+        top: 110px;
         left: 0;
         width: 100%;
         text-align: left;

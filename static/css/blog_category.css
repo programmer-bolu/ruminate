@@ -207,6 +207,7 @@ header .navbar {
 
 .call-to-action {
     margin-top: 150px;
+    margin-bottom: 50px;
 }
 
 .call-to-action .main-content {
@@ -241,12 +242,9 @@ header .navbar {
 
 /* Blog Posts */
 
-.blog-posts {
-    margin-top: 100px;
-}
 
 .blog-posts .blog-post {
-    margin-bottom: 30px;
+    margin-bottom: 90px;
 }
 
 .blog-posts .blog-thumb img {
@@ -267,7 +265,8 @@ header .navbar {
     font-weight: 900;
     color: #f48840;
 }
-.blog_description{
+
+.blog_description {
     padding: 0 !important;
     margin: 0;
 }
@@ -414,7 +413,8 @@ ul.page-numbers li a:hover {
 .blog-posts .comments {
     margin-top: 30px;
 }
-.blog-posts #comments{
+
+.blog-posts #comments {
     text-align: center;
 }
 
@@ -527,17 +527,6 @@ ul.page-numbers li a:hover {
     margin-top: 0px;
 }
 
-.sidebar .sidebar-heading h2 {
-    font-size: 18px;
-    text-transform: uppercase;
-    font-weight: 900;
-    letter-spacing: 0.5px;
-    color: #20232e;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 15px;
-    margin-bottom: 25px;
-}
-
 .sidebar .search input {
     width: 100%;
     height: 50px;
@@ -548,86 +537,82 @@ ul.page-numbers li a:hover {
     color: #7a7a7a;
     outline: none;
     padding: 0px 15px;
+    position: sticky;
+    top: 0;
+    right: 0;
 }
 
 .sidebar .search input::placeholder {
     color: #aaa;
 }
 
-.sidebar .recent-posts ul li {
-    margin-bottom: 15px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid #eee;
+#titl li {
+    margin-top: 50px;
 }
 
-.sidebar .recent-posts ul li:last-child {
-    margin-bottom: 0px;
-    padding-bottom: 0px;
-    border-bottom: none;
-}
-
-.sidebar .recent-posts ul li h5 {
-    font-size: 19px;
-    font-weight: 900;
-    color: #20232e;
-    line-height: 30px;
-    transition: all 0.3s;
-}
-
-.sidebar .recent-posts ul li h5:hover {
+#titl li:hover a {
     color: #f48840;
 }
 
-.sidebar .recent-posts ul li span {
-    display: block;
-    font-size: 14px;
-    color: #aaa;
-    margin-top: 8px;
-}
-
-.sidebar .categories ul li {
-    margin-bottom: 15px;
-}
-
-.sidebar .categories ul li:last-child {
-    margin-bottom: 0px;
-}
-
-.sidebar .categories ul li a {
-    font-size: 15px;
+#titl li a {
+    color: black;
+    transition: .3s;
     font-weight: 700;
-    color: #20232e;
-    transition: all .3s;
 }
 
-.sidebar .categories ul li a:hover {
-    color: #f48840;
+.Btn {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(#f48840, #fb9857);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    position: fixed;
+    left: calc(99vw - 50px);
+    top: 90%;
+    border: none;
 }
 
-.sidebar .tags ul li {
-    margin-right: 6px;
-    display: inline-block;
+.arrow path {
+    fill: white;
 }
 
-.sidebar .tags ul li {
-    margin-bottom: 10px;
+.text {
+    font-size: 0.7em;
+    width: 100px;
+    position: absolute;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    bottom: -18px;
+    opacity: 0;
+    transition-duration: .7s;
 }
 
-.sidebar .tags ul li a {
-    font-size: 15px;
-    font-weight: 500;
-    color: #aaa;
-    display: inline-block;
-    border: 1px solid #eee;
-    padding: 10px 18px;
-    transition: all .3s;
+.Btn:hover .text {
+    opacity: 1;
+    transition-duration: .7s;
 }
 
-.sidebar .tags ul li a:hover {
-    background-color: #f48840;
-    border-color: #f48840;
-    color: #fff;
+.Btn:hover .arrow {
+    animation: slide-in-bottom .7s cubic-bezier(0.250, 0.460, 0.450, 0.940) both;
 }
+
+@keyframes slide-in-bottom {
+    0% {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
 footer {
     margin-top: 100px;
     text-align: center;
@@ -688,7 +673,11 @@ footer p a:hover {
 }
 
 
-
+@media (max-width: 1000px) {
+    .blog-posts .sidebar {
+        display: none;
+    }
+}
 
 @media (max-width: 992px) {
     .navbar .navbar-brand {
@@ -713,7 +702,7 @@ footer p a:hover {
     #navbarResponsive {
         z-index: 99999;
         position: absolute;
-        top: 100px;
+        top: 110px;
         left: 0;
         width: 100%;
         text-align: left;
@@ -744,12 +733,13 @@ footer p a:hover {
         border-bottom: none !important;
         padding-bottom: 15px;
     }
-        .call-to-action {
-            text-align: center;
-        }
-    
-        .call-to-action .main-content .main-button {
-            text-align: center;
-            margin-top: 30px;
-        }
+
+    .call-to-action {
+        text-align: center;
+    }
+
+    .call-to-action .main-content .main-button {
+        text-align: center;
+        margin-top: 30px;
+    }
 }

@@ -348,3 +348,12 @@ def get_post_comment(blog):
 
     return comments
     
+def get_categories(category):
+    connect.execute(f'SELECT * FROM blogs')
+    data = connect.fetchall()
+    blog = []
+    for i in data:
+        if category in eval(i[10]):
+            blog.append(i)
+
+    return blog

@@ -47,13 +47,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Categories</a>
+              <a class="nav-link" href="/category">Categories</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">Features</a>
+              <a class="nav-link" href="/contact/ruminate">Contact us</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="">About</a>
+              <a class="nav-link" href="/aboutus/ruminate">About</a>
             </li>
           </ul>
         </div>
@@ -69,11 +69,11 @@
       <div class="owl-banner owl-carousel">
         {% for item in blogs[:7] %}
         <div class="item">
-          <img src="{{item[11]}}" alt="">
+          <img src="{{item[11]}}" alt="{{item[12]}}">
           <div class="item-content">
             <div class="main-content">
               <div class="meta-category">
-                <span>Tech</span>
+                <span>{{item[10][0]}}</span>
               </div>
               <a href="/blog?author_id={{item[8]}}&blog_title={{item[6]}}">
                 <h4>{{item[6]}}</h4>
@@ -81,7 +81,7 @@
               <ul class="post-info">
                 <li><a href="#">{{item[9]}}</a></li>
                 <li><a href="#">{{item[1]}}</a></li>
-                <li><a href="#">Comments : 
+                <li><a href="/blog?author_id={{item[8]}}&blog_title={{item[6]}}#comments">Comments :
                     {% if item[4] == None%}
                     0
                     {% else %}
@@ -103,7 +103,7 @@
         <div class="col-lg-12">
           <div class="main-content">
             <div class="row">
-              <div class="col-lg-8">
+              <div class="col-lg-12">
                 <span>Ruminate Blog Home</span>
                 <h4>Create and publish your <t id="textchange"></t>
                 </h4>
@@ -147,13 +147,6 @@
                         {{item[4]}}
                         {% endif %}
                       </a></li>
-                    <li><a href="#">Views :
-                        {% if item[4] == None%}
-                        0
-                        {% else %}
-                        {{item[3]}}
-                        {% endif %}
-                      </a></li>
                   </ul>
                   <p>{{item[7][:300]|safe}} . . .<a></p>
                   <div class="post-options">
@@ -179,7 +172,7 @@
               {% endfor %}
               <div class="col-lg-12">
                 <div class="main-button">
-                  <a href="/home?user_id={{id}}">View All Posts</a>
+                  <a href="/blog/allblogs">View All Posts</a>
                 </div>
               </div>
             </div>
@@ -188,13 +181,6 @@
         <div class="col-lg-4">
           <div class="sidebar">
             <div class="row">
-              <div class="col-lg-12">
-                <div class="sidebar-item search">
-                  <form id="search_form" name="gs" method="GET" action="#">
-                    <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
-                  </form>
-                </div>
-              </div>
               <div class="col-lg-12">
                 <div class="sidebar-item recent-posts">
                   <div class="sidebar-heading">
@@ -215,16 +201,16 @@
               <div class="col-lg-12">
                 <div class="sidebar-item categories">
                   <div class="sidebar-heading">
-                    <h2><a href="" style="color: black;">Categories</a></h2>
+                    <h2><a href="/category" style="color: black;">Categories</a></h2>
                   </div>
                   <div class="content">
                     <ul>
-                      <li><a href="#">- {{categories[0]}}</a></li>
-                      <li><a href="#">- {{categories[1]}}</a></li>
-                      <li><a href="#">- {{categories[2]}}</a></li>
-                      <li><a href="#">- {{categories[3]}}</a></li>
-                      <li><a href="#">- {{categories[4]}}</a></li>
-                      <li><a href="#">- {{categories[5]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[0]}}">- {{categories[0]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[1]}}">- {{categories[1]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[2]}}">- {{categories[2]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[3]}}">- {{categories[3]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[4]}}">- {{categories[4]}}</a></li>
+                      <li><a href="/blog/category?category={{categories[5]}}">- {{categories[5]}}</a></li>
                     </ul>
                   </div>
                 </div>
@@ -251,9 +237,9 @@
         </div>
         <div class="col-lg-12">
           <div class="copyright-text">
-            <p>Copyright 2020 Stand Blog Co.
+            <p>Copyright 2024 Ruminate.
 
-              | Design: <a rel="nofollow" href="https://templatemo.com" target="_parent">TemplateMo</a></p>
+              | Design: <a rel="nofollow" href="" target="_parent">ruminate</a></p>
           </div>
         </div>
       </div>

@@ -301,6 +301,25 @@ def comment():
 @app.route('/blog/allblogs')
 def logout():
     blogs = sv.get_all_blogs()
-    return render_template('blog_page.html', blogs=blogs)
+    titles = []
+    for i in blogs:
+        titles.append([i[6], i[8]])
+    random.shuffle(blogs)
+    random.shuffle(titles)
+    return render_template('blog_page.html', blogs=blogs, titles=titles)
+
+@app.get('/blog/category')
+def categ():
+    category = request.args.get('category')
+    blog = sv.get_categories(category)
+    return render_template('blog_category.html', blogs=blog)
+
+@app.route('/aboutus/ruminate')
+def aboutus():
+    return render_template('aboutus.html')
+
+@app.route('/contact/ruminate')
+def contact():
+    return render_template('contactus.html')
 
 app.run(debug=True)

@@ -8,8 +8,6 @@ from datetime import datetime, timedelta
 import os
 app = Flask(__name__)
 
-app.secret_key = os.urandom(24)
-
 def is_less_than_24_hours(time_str):
     # Parse the given time string
     given_time = datetime.strptime(time_str, '%d/%m/%Y, %H:%M')

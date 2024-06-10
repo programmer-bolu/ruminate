@@ -353,7 +353,9 @@ def get_categories(category):
     data = connect.fetchall()
     blog = []
     for i in data:
-        if category in eval(i[10]):
+        fet = eval(i[10])
+        if category in fet:
             blog.append(i)
+        # print(category)
 
     return blog

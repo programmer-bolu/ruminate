@@ -67,7 +67,7 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <span>Ruminate Blog Home</span>
-                                <h4>Create and publish your <t id="textchange"></t>
+                                <h4>Create and publish your Blogs
                                 </h4>
                             </div>
                         </div>
@@ -210,9 +210,10 @@
         "Mental Health Awareness"
     ]
 
-    categories.forEach((el, i) => [
-        cat.innerHTML += `<a href="blog/category?category=${el}"><div>${el}</div></a>`
-    ])
+    categories.forEach((el, i) => {
+        let encodedCategory = encodeURIComponent(el)
+        cat.innerHTML += `<a href="blog/category?category=${encodedCategory}"><div>${el}</div></a>`
+    })
 </script>
 
 </html>

@@ -312,7 +312,8 @@ def logout():
 def categ():
     category = request.args.get('category')
     blog = sv.get_categories(category)
-    return render_template('blog_category.html', blogs=blog)
+    le = len(blog)
+    return render_template('blog_category.html', blogs=blog, dat = le)
 
 @app.route('/aboutus/ruminate')
 def aboutus():

@@ -91,7 +91,7 @@
                             <div class="col-lg-12">
                                 <div class="blog-post">
                                     <div class="blog-thumb">
-                                        <img src="{{blog[0][11]}}" alt="">
+                                        <img src="{{blog[0][11]}}" alt="{{blog[0][12]}}">
                                     </div>
                                     <div class="down-content">
                                         <span>{{blog[0][10][1]}}</span>
@@ -112,14 +112,19 @@
                                             <div class="row">
                                                 <div class="col-6">
                                                     <ul class="post-tags">
-                                                        <li><i class="fa fa-tags"></i></li>
+                                                        <li>
+                                                            <div class="likes">{{blog[0][13]}}</div>
+                                                            <i class="fa fa-thumbs-up"></i>
+                                                        </li>
+                                                        <li>
+                                                            <div class="deslike">{{blog[0][14]}}</div>
+                                                            <i class="fa fa-thumbs-down fa-flip-horizontal"></i>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                                 <div class="col-6">
                                                     <ul class="post-share">
                                                         <li><i class="fa fa-share-alt"></i></li>
-                                                        <li><a href="#">Facebook</a>,</li>
-                                                        <li><a href="#"> Twitter</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

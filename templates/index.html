@@ -11,6 +11,15 @@
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
 
+
+  <meta property="og:title" content="Ruminate Blog" />
+  <meta name="description"
+    content="Ruminate is your go-to blog app for deep thoughts and insightful articles. Join a community of thinkers and share your perspectives on a wide range of topics. Start ruminating today!">
+  <meta property="og:description"
+    content="Ruminate is your go-to blog app for deep thoughts and insightful articles. Join a community of thinkers and share your perspectives on a wide range of topics. Start ruminating today!" />
+  <meta property="og:image" content="https://example.com/path-to-your-image.jpg" />
+  <meta property="og:url" content="https://example.com/your-page-url" />
+  <meta property="og:type" content="website" />
   <title>Ruminate | Daily blog | Inspiration</title>
 
 
@@ -18,8 +27,8 @@
 
   <link rel="stylesheet" href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
-  <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-thin.css">
   <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-solid.css">
@@ -33,224 +42,310 @@
   <!-- Header -->
   <header class="">
     <nav class="navbar navbar-expand-lg">
-      <div class="container">
-        <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='images/ruminate.png')}}"
-            alt="Ruminate"></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-          aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarResponsive">
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="/">Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/category">Categories</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/contact/ruminate">Contact us</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/aboutus/ruminate">About</a>
-            </li>
-          </ul>
+      <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='images/ruminate.png')}}"
+          alt="Ruminate"></a>
+      <label class="search" for="searchbox">
+        <i class="fa-sharp fa-regular fa-magnifying-glass"></i>
+        <input type="text" id="searchbox" placeholder="Search Ruminate">
+        <div id="clearSearch">
+          <i class="fa-regular fa-circle-xmark"></i>
         </div>
+      </label>
+      <div>
+        <button class="btn login">Login</button>
+        <button class="btn signup">Sign Up</button>
       </div>
-
     </nav>
   </header>
 
-  <!-- Page Content -->
-  <!-- Banner Starts Here -->
-  <div class="main-banner header-text">
-    <div class="container-fluid">
-      <div class="owl-banner owl-carousel">
-        {% for item in blogs[:7] %}
-        <div class="item">
-          <img src="{{item[11]}}" alt="{{item[12]}}">
-          <div class="item-content">
-            <div class="main-content">
-              <div class="meta-category">
-                <span>{{item[10][0]}}</span>
-              </div>
-              <a href="/blog?author_id={{item[8]}}&blog_title={{item[6]}}">
-                <h4>{{item[6]}}</h4>
-              </a>
-              <ul class="post-info">
-                <li><a href="#">{{item[9]}}</a></li>
-                <li><a href="#">{{item[1]}}</a></li>
-                <li><a href="/blog?author_id={{item[8]}}&blog_title={{item[6]}}#comments">Comments :
-                    {% if item[4] == None%}
-                    0
-                    {% else %}
-                    {{item[4]}}
-                    {% endif %}</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        {% endfor %}
-      </div>
-    </div>
+  <!-- LEFT NAVBAR -->
+  <div class="offcanvas offcanvas-start show d-md-none" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
+
   </div>
-  <!-- Banner Ends Here -->
-
-  <section class="call-to-action">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="main-content">
-            <div class="row">
-              <div class="col-lg-12">
-                <span>Ruminate Blog Home</span>
-                <h4>Create and publish your <t id="textchange"></t>
-                </h4>
-              </div>
-              <div class="col-lg-4">
-                <div class="main-button">
-                  <a href="/register">Create An Account</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
 
+  <!-- BLOG SECTOIN -->
   <section class="blog-posts">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8">
-          <div class="all-blog-posts">
-            <div class="row">
-              {% for item in blogs[7:10] %}
-              <div class="blog-post">
-                <div class="blog-thumb">
-                  <img src="{{item[11]}}" alt="{{item[12]}}">
-                </div>
-                <div class="down-content">
-                  <span>{{item[10][0]}}</span>
-                  <a href="/blog?author_id={{item[8]}}&blog_title={{item[6]}}">
-                    <h4>{{item[6]}}</h4>
-                  </a>
-                  <ul class="post-info">
-                    <li><a href="#">{{item[9]}}</a></li>
-                    <li><a href="#">{{item[1]}}</a></li>
-                    <li><a href="#">Comments :
-                        {% if item[4] == None%}
-                        0
-                        {% else %}
-                        {{item[4]}}
-                        {% endif %}
-                      </a></li>
-                  </ul>
-                  <p>{{item[7][:300]|safe}} . . .<a></p>
-                  <div class="post-options">
-                    <div class="row">
-                      <div class="col-6">
-                        <ul class="post-tags">
-                          <li><i class="fa fa-tags"></i></li>
-                          <li><a></a></li>
-                          <li><a></a></li>
-                        </ul>
-                      </div>
-                      <div class="col-6">
-                        <ul class="post-share">
-                          <li><i class="fa fa-share-alt"></i></li>
-                          <li><a href="#">Facebook</a>,</li>
-                          <li><a href="#"> Twitter</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <div class="blog">
+        <div class="blog-post">
+
+          <div class="post-directory-info">
+            <div class="author-profile">
+              <div class="container-fluid">
+                <a class="auth-brand" href="#">
+                  <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="30" height="24"
+                    class="d-inline-block align-text-top">
+                  Ruminate
+                </a>
               </div>
-              {% endfor %}
-              <div class="col-lg-12">
-                <div class="main-button">
-                  <a href="/blog/allblogs">View All Posts</a>
+              <i class="fa-sharp fa-solid fa-circle-dot"></i>
+              <div class="text time">
+                10 hr. ago
+              </div>
+            </div>
+
+            <div class="end-follow-report">
+              <button class="btn follow">Follow</button>
+              <div>
+                <div class="elipsis" id="ellipsisButton">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </div>
+
+                <div class="drop-menu" id="dropdownMenu">
+                  <i class="fa-light fa-flag"></i> Report
                 </div>
               </div>
             </div>
+
           </div>
+
+          <div class="title">
+            <h6>Exploring The World: Top 10 Travel Destinations For 2024</h6>
+          </div>
+
+          <div class="container">
+            <div class="cover">
+
+            </div>
+          </div>
+
+          <div class="actions">
+            <div class="like-unlike">
+              <button>
+                <i class="fa-solid fa-thumbs-up"></i>
+              </button>
+              <span>22</span>
+              <button>
+                <i class="fa-solid fa-thumbs-down"></i>
+              </button>
+            </div>
+            <div class="post-comments">
+              <i class="fa-solid fa-comment-middle"></i>
+              <span>131</span>
+            </div>
+            <div class="share">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </div>
+          </div>
+
         </div>
-        <div class="col-lg-4">
-          <div class="sidebar">
-            <div class="row">
-              <div class="col-lg-12">
-                <div class="sidebar-item recent-posts">
-                  <div class="sidebar-heading">
-                    <h2>Recent Posts</h2>
-                  </div>
-                  <div class="content">
-                    <ul>
-                      {% for i in recent[:3]%}
-                      <li><a href="/blog?author_id={{i[8]}}&blog_title={{i[6]}}">
-                          <h5>{{i[6]}}</h5>
-                          <span>{{i[1]}}</span>
-                        </a></li>
-                      {% endfor %}
-                    </ul>
-                  </div>
-                </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog">
+        <div class="blog-post">
+    
+          <div class="post-directory-info">
+            <div class="author-profile">
+              <div class="container-fluid">
+                <a class="auth-brand" href="#">
+                  <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="30" height="24"
+                    class="d-inline-block align-text-top">
+                  Ruminate
+                </a>
               </div>
-              <div class="col-lg-12">
-                <div class="sidebar-item categories">
-                  <div class="sidebar-heading">
-                    <h2><a href="/category" style="color: black;">Categories</a></h2>
-                  </div>
-                  <div class="content">
-                    <ul>
-                      <li><a href="/blog/category?category={{categories[0]}}">- {{categories[0]}}</a></li>
-                      <li><a href="/blog/category?category={{categories[1]}}">- {{categories[1]}}</a></li>
-                      <li><a href="/blog/category?category={{categories[2]}}">- {{categories[2]}}</a></li>
-                      <li><a href="/blog/category?category={{categories[3]}}">- {{categories[3]}}</a></li>
-                      <li><a href="/blog/category?category={{categories[4]}}">- {{categories[4]}}</a></li>
-                      <li><a href="/blog/category?category={{categories[5]}}">- {{categories[5]}}</a></li>
-                    </ul>
-                  </div>
+              <i class="fa-sharp fa-solid fa-circle-dot"></i>
+              <div class="text time">
+                10 hr. ago
+              </div>
+            </div>
+    
+            <div class="end-follow-report">
+              <button class="btn follow">Follow</button>
+              <div>
+                <div class="elipsis" id="ellipsisButton">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </div>
+    
+                <div class="drop-menu" id="dropdownMenu">
+                  <i class="fa-light fa-flag"></i> Report
                 </div>
               </div>
             </div>
+    
           </div>
+    
+          <div class="title">
+            <h6>Exploring The World: Top 10 Travel Destinations For 2024</h6>
+          </div>
+    
+          <div class="container">
+            <div class="cover">
+    
+            </div>
+          </div>
+    
+          <div class="actions">
+            <div class="like-unlike">
+              <button>
+                <i class="fa-solid fa-thumbs-up"></i>
+              </button>
+              <span>22</span>
+              <button>
+                <i class="fa-solid fa-thumbs-down"></i>
+              </button>
+            </div>
+            <div class="post-comments">
+              <i class="fa-solid fa-comment-middle"></i>
+              <span>131</span>
+            </div>
+            <div class="share">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog">
+        <div class="blog-post">
+    
+          <div class="post-directory-info">
+            <div class="author-profile">
+              <div class="container-fluid">
+                <a class="auth-brand" href="#">
+                  <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="30" height="24"
+                    class="d-inline-block align-text-top">
+                  Ruminate
+                </a>
+              </div>
+              <i class="fa-sharp fa-solid fa-circle-dot"></i>
+              <div class="text time">
+                10 hr. ago
+              </div>
+            </div>
+    
+            <div class="end-follow-report">
+              <button class="btn follow">Follow</button>
+              <div>
+                <div class="elipsis" id="ellipsisButton">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </div>
+    
+                <div class="drop-menu" id="dropdownMenu">
+                  <i class="fa-light fa-flag"></i> Report
+                </div>
+              </div>
+            </div>
+    
+          </div>
+    
+          <div class="title">
+            <h6>Exploring The World: Top 10 Travel Destinations For 2024</h6>
+          </div>
+    
+          <div class="container">
+            <div class="cover">
+    
+            </div>
+          </div>
+    
+          <div class="actions">
+            <div class="like-unlike">
+              <button>
+                <i class="fa-solid fa-thumbs-up"></i>
+              </button>
+              <span>22</span>
+              <button>
+                <i class="fa-solid fa-thumbs-down"></i>
+              </button>
+            </div>
+            <div class="post-comments">
+              <i class="fa-solid fa-comment-middle"></i>
+              <span>131</span>
+            </div>
+            <div class="share">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="blog">
+        <div class="blog-post">
+    
+          <div class="post-directory-info">
+            <div class="author-profile">
+              <div class="container-fluid">
+                <a class="auth-brand" href="#">
+                  <img src="{{url_for('static', filename='images/logo.png')}}" alt="Logo" width="30" height="24"
+                    class="d-inline-block align-text-top">
+                  Ruminate
+                </a>
+              </div>
+              <i class="fa-sharp fa-solid fa-circle-dot"></i>
+              <div class="text time">
+                10 hr. ago
+              </div>
+            </div>
+    
+            <div class="end-follow-report">
+              <button class="btn follow">Follow</button>
+              <div>
+                <div class="elipsis" id="ellipsisButton">
+                  <i class="fa-solid fa-ellipsis"></i>
+                </div>
+    
+                <div class="drop-menu" id="dropdownMenu">
+                  <i class="fa-light fa-flag"></i> Report
+                </div>
+              </div>
+            </div>
+    
+          </div>
+    
+          <div class="title">
+            <h6>Exploring The World: Top 10 Travel Destinations For 2024</h6>
+          </div>
+    
+          <div class="container">
+            <div class="cover">
+    
+            </div>
+          </div>
+    
+          <div class="actions">
+            <div class="like-unlike">
+              <button>
+                <i class="fa-solid fa-thumbs-up"></i>
+              </button>
+              <span>22</span>
+              <button>
+                <i class="fa-solid fa-thumbs-down"></i>
+              </button>
+            </div>
+            <div class="post-comments">
+              <i class="fa-solid fa-comment-middle"></i>
+              <span>131</span>
+            </div>
+            <div class="share">
+              <i class="fa-solid fa-share-nodes"></i> Share
+            </div>
+          </div>
+    
         </div>
       </div>
     </div>
   </section>
 
-
-  <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <ul class="social-icons">
-            <li><a href="#">Facebook</a></li>
-            <li><a href="#">Twitter</a></li>
-            <li><a href="#">Behance</a></li>
-            <li><a href="#">Linkedin</a></li>
-            <li><a href="#">Dribbble</a></li>
-          </ul>
-        </div>
-        <div class="col-lg-12">
-          <div class="copyright-text">
-            <p>Copyright 2024 Ruminate.
-
-              | Design: <a rel="nofollow" href="" target="_parent">ruminate</a></p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-
+  <section class="new-members sidebar">
+    <div class="item">Boluwatife</div>
+    <div class="item">Akingbade</div>
+    <div class="item">Ilerioluwa</div>
+    <div class="item">Jesufemi</div>
+    <div class="item">Oluwademilade</div>
+  </section>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script> -->
 
   <script src="{{url_for('static', filename='js/script.js')}}"></script>
 

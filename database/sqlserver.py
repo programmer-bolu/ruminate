@@ -125,6 +125,11 @@ connect = data.cursor()
 # connect.execute('ALTER TABLE blogs ADD COLUMN (image_link VARCHAR(255), image_description VARCHAR(255))')
 # connect.execute('ALTER TABLE blogs CHANGE COLUMN `categories` `categories` LONGTEXT NULL DEFAULT NULL')
 # connect.execute('ALTER TABLE blogs DROP COLUMN blog_details')
+# connect.execute('ALTER TABLE blogs ADD COLUMN (likes INTEGER DEFAULT 0, deslikes INTEGER DEFAULT 0)')
+# connect.execute('ALTER TABLE confirmedUsers ADD COLUMN notifications LONGTEXT')
+# connect.execute('ALTER TABLE blogs ADD COLUMN (visibility VARCHAR(255) DEFAULT "visible", comment_enabled VARCHAR(255) DEFAULT "enabled", comment_visibility VARCHAR(255) DEFAULT "visibile")')
+# connect.execute('ALTER TABLE blogs DROP COLUMN visibility')
+
 # connect.execute('CREATE TABLE verification_codes (id INTEGER PRIMARY KEY AUTO_INCREMENT, email VARCHAR(255), code VARCHAR(255) )')
 # connect.execute('CREATE TABLE categories (id INTEGER PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), posts_under_category VARCHAR(255))')
 # for i in categories:

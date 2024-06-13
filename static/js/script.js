@@ -1,50 +1,19 @@
-text = ['Blog', 'Ads', 'Content']
-function animateText(words) {
-    const outputElement = document.getElementById("textchange");
-    let wordIndex = 0;
-    let charIndex = 0;
-    let isAdding = true;
+document.addEventListener('DOMContentLoaded', function () {
+    const ellipsisButton = document.getElementById('ellipsisButton');
+    const dropdownMenu = document.getElementById('dropdownMenu');
 
-    const interval = setInterval(() => {
-        if (isAdding) {
-            if (charIndex < words[wordIndex].length) {
-                outputElement.innerHTML += words[wordIndex][charIndex];
-                charIndex++;
-            } else {
-                isAdding = false;
-                charIndex--; // Start removing from the last character
-            }
+    ellipsisButton.addEventListener('click', function (event) {
+        event.stopPropagation();
+        if (dropdownMenu.classList.contains('show')) {
+            dropdownMenu.classList.remove('show');
         } else {
-            if (charIndex >= 0) {
-                outputElement.innerHTML = outputElement.innerHTML.slice(0, -1);
-                charIndex--;
-            } else {
-                isAdding = true;
-                wordIndex = (wordIndex + 1) % words.length;
-                charIndex = 0;
-            }
+            dropdownMenu.classList.add('show');
         }
-    }, 500);
-}
-$(document).ready(function () {
-    $(".owl-carousel").owlCarousel({
-        items: 3,
-        loop: true,
-        autoplay: true,
-        autoplayTimeout: 3000,
-        responsive: {
-            0: {
-                items: 1
-            },
-            900: {
-                items: 2
-            },
-            1200: {
-                items: 3
-            }
-        },
-        margin: 10
+    });
+
+    document.addEventListener('click', function (event) {
+        if (!ellipsisButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+            dropdownMenu.classList.remove('show');
+        }
     });
 });
-animateText(text)
-

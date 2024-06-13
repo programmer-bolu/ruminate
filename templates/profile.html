@@ -10,7 +10,6 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-
     <title>Ruminate | Daily blog | Inspiration</title>
 
 
@@ -31,8 +30,6 @@
     <header class="">
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand" href="/"><img src="{{url_for('static', filename='images/ruminate.png')}}"
-                        alt="Ruminate"></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
                     aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -40,17 +37,16 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/home?user_id={{id}}">Home
-                            </a>
+                            <a class="nav-link" href="/home?user_id={{id}}"><i class="fa-solid fa-house"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/category">Categories</a>
+                            <a class="nav-link" href=""><i class="fa-sharp fa-solid fa-bell"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/contact/ruminate">Contact us</a>
+                            <a class="nav-link" href=""><i class="fa-solid fa-user"></i></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/blog/allblogs">View Blogs Update</a>
+                            <a class="nav-link" href=""><i class="fa-solid fa-chart-simple"></i></a>
                         </li>
 
                     </ul>
@@ -94,6 +90,30 @@
                         <div class="row">
                             <div class="col-lg-12">
                                 <div class="blog-post">
+                                    <div class="opt">
+                                        <i class="fa-solid fa-ellipsis" id="ellipsis"></i>
+                                        <div class="dropdown" id="dropdown">
+                                            <div>
+                                                <ul>
+                                                    <li>Edit post</li>
+                                                    <li>Disable comments</li>
+                                                    <li>Change cover image</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul>
+                                                    <li>Copy link</li>
+                                                    <li>Turn off notification</li>
+                                                </ul>
+                                            </div>
+                                            <div>
+                                                <ul>
+                                                    <li>Delete post</li>
+                                                    <li>Hide Post</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div class="blog-thumb">
                                         <img src="{{blog[11]}}" alt="{{blog[12]}}">
                                     </div>
@@ -157,29 +177,6 @@
 
     </section>
 
-    <section class="call-to-action">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="main-content">
-                        <div class="row">
-                            <div class="col-lg-8">
-                                <span>Ruminate Blog Home</span>
-                                <h4>Create an AD <t id="textchange"></t>
-                                </h4>
-                            </div>
-                            <div class="col-lg-4">
-                                <div class="main-button">
-                                    <a href="/register">Create An Account</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
 
     <footer>
         <div class="container">
@@ -216,6 +213,58 @@
                 window.location.href = `/blogger/create/blog?userId=${userId}`
             })
         }
+
+        document.addEventListener("DOMContentLoaded", () => {
+                const ellipses = document.querySelectorAll("#ellipsis");
+
+                ellipses.forEach(ellipsis => {
+                    const dropdown = ellipsis.nextElementSibling;
+
+                    ellipsis.addEventListener("click", (event) => {
+                        event.stopPropagation(); // Prevent click event from bubbling up to the document
+
+                        // Close any open dropdowns except the one being toggled
+                        document.querySelectorAll('.dropdown.show').forEach(openDropdown => {
+                            if (openDropdown !== dropdown) {
+                                openDropdown.classList.remove('show');
+                                setTimeout(() => {
+                                    openDropdown.style.display = 'none';
+                                }, 300);
+                            }
+                        });
+
+                        if (dropdown.classList.contains("show")) {
+                            dropdown.classList.remove("show");
+                            setTimeout(() => {
+                                dropdown.style.display = "none";
+                            }, 300);
+                        } else {
+                            dropdown.style.display = "block";
+                            setTimeout(() => {
+                                dropdown.classList.add("show");
+                            }, 10);
+                        }
+                    });
+                });
+
+                document.addEventListener("click", () => {
+                    document.querySelectorAll('.dropdown.show').forEach(dropdown => {
+                        dropdown.classList.remove('show');
+                        setTimeout(() => {
+                            dropdown.style.display = 'none';
+                        }, 300);
+                    });
+                });
+
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.addEventListener('click', (event) => {
+                        event.stopPropagation(); // Prevent click event from bubbling up to the document
+                    });
+                });
+            });
+
+
+
     </script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

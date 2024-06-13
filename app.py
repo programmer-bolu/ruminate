@@ -5,7 +5,6 @@ from database import sqlserver as sv
 import numpy as np
 from process_image import image_url as ig
 from datetime import datetime, timedelta
-import os
 app = Flask(__name__)
 
 def is_less_than_24_hours(time_str):
@@ -82,7 +81,6 @@ def confirm():
 def verify():
     email = request.args.get('email')
     code = request.args.get('code')
-    session['blog_token'] = os.urandom(24).hex()
     
 
     if email == None or code == None:
@@ -91,11 +89,10 @@ def verify():
     if sv.confirm_verification_code(email, code) == True:
         res = sv.get_user(email)
         name = res['name']
-        token = session.get('blog_token')
         password = res['password']
         sv.save_user(email, name, password)
         id = sv.get_id(email)
-        return jsonify(f'["true", "{id}", "{token}"]')
+        return jsonify(f'["true", "{id}"]')
     else:
         return jsonify('false')
 
@@ -104,7 +101,6 @@ def AuthLog():
     element = request.json['data']
     email = element['email']
     password = element['password']
-    session['blog_token'] = os.urandom(24).hex()
     
     if sv.check_login(email, password) == None:
         return jsonify('["res1" , "No User"]')
@@ -262,7 +258,6 @@ def category():
 
 @app.get('/home')
 def home():
-    toke = request.args.get('token')
     id = request.args.get('user_id')
     if len(sv.fetch_user_blogs(id)) > 0:
         user_has_blogs = True
